@@ -25,14 +25,15 @@ def unpack_model_file(fn):
     _tar = tarfile.open(fn, 'r:gz')
     _tar.extractall()
     
-    model = pickle.load(open('xgboost.pkl', 'rb'))
+    model = pickle.load(open('xgboost-model', 'rb'))
     print(model)
     
     return model
 
-def plot_features(model, columns):
+def plot_features(model, columns, feature_names):
     num_features = len(columns)
     fig, ax = plt.subplots(figsize=(6,6))
+    model.feature_names = feature_names
     xgb.plot_importance(model, max_num_features=num_features, 
                     height=0.8, ax=ax, show_values = False)
     plt.title('Top Model Feature Importance')
